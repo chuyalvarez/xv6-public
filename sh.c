@@ -146,6 +146,7 @@ main(void)
 {
   static char buf[100];
   int fd;
+  buf[0]= '/';
 
   // Ensure that three file descriptors are open.
   while((fd = open("console", O_RDWR)) >= 0){
@@ -156,12 +157,15 @@ main(void)
   }
 
   // Read and run input commands.
-  while(getcmd(buf, sizeof(buf)) >= 0){
-    if(buf[0] == 'c' && buf[1] == 'd' && buf[2] == ' '){
+  while(getcmd(buf + 1, sizeof(buf)-1) >= 0){
+    if(buf[1] == 'c' && buf[2] == 'd' && buf[3] == ' '){
       // Chdir must be called by the parent, not the child.
       buf[strlen(buf)-1] = 0;  // chop \n
-      if(chdir(buf+3) < 0)
+      if(chdir(buf+4) < 0)
         printf(2, "cannot cd %s\n", buf+3);
+      continue;
+    }
+    if(buf[1]=='\n'){
       continue;
     }
     if(fork1() == 0)
