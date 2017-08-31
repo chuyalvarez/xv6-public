@@ -99,3 +99,12 @@ int sys_reboot(void){
   outb(0x64, 0xfe);
   return 0;
 }
+
+int sys_set_priority(void){
+  int priority;
+  if (argint(0, &priority)<0){
+    return -1;
+  }
+  myproc()->priority = priority;
+  return 0;
+}
