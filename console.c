@@ -187,11 +187,10 @@ struct {
 } input;
 
 #define C(x)  ((x)-'@')  // Control-x
-
 void
 consoleintr(int (*getc)(void))
 {
-  int c, doprocdump = 0;
+  int c, doprocdump = 0, doendtask = 0;
 
   acquire(&cons.lock);
   while((c = getc()) >= 0){
@@ -207,6 +206,9 @@ consoleintr(int (*getc)(void))
         consputc(BACKSPACE);
       }
       break;
+    case C('C'):
+      doendtask=1;
+
     case C('H'): case '\x7f':  // Backspace
       if(input.e != input.w){
         input.e--;
@@ -229,6 +231,9 @@ consoleintr(int (*getc)(void))
   release(&cons.lock);
   if(doprocdump) {
     procdump();  // now call procdump() wo. cons.lock held
+  }
+  if(doendtask){
+    kill(myproc()->pid);
   }
 }
 
@@ -297,4 +302,3 @@ consoleinit(void)
   picenable(IRQ_KBD);
   ioapicenable(IRQ_KBD, 0);
 }
-

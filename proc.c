@@ -553,7 +553,3 @@ procdump(void)
     cprintf("\n");
   }
 }
-
-void printHello(void) {
-  cprintf("HEllo\n" );
-}
