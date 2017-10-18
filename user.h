@@ -26,6 +26,9 @@ int uptime(void);
 int shutdown(void);
 int reboot(void);
 int set_priority(int);
+int getparentid(void);
+int signal(int,sighandler_t);
+int killsignal(int,int);
 
 // ulib.c
 int stat(char*, struct stat*);

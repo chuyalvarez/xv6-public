@@ -106,6 +106,9 @@ extern int sys_uptime(void);
 extern int sys_shutdown(void);
 extern int sys_reboot(void);
 extern int sys_set_priority(void);
+extern int sys_getparentpid(void);
+extern int sys_signal(void);
+extern int sys_killsignal(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -132,6 +135,9 @@ static int (*syscalls[])(void) = {
 [SYS_shutdown] sys_shutdown,
 [SYS_reboot]  sys_reboot,
 [SYS_set_priority] sys_set_priority,
+[SYS_getparentpid] sys_getparentpid,
+[SYS_signal] sys_signal,
+[SYS_killsignal] sys_killsignal,
 };
 
 void

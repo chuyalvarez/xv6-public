@@ -108,3 +108,18 @@ int sys_set_priority(void){
   myproc()->priority = priority;
   return 0;
 }
+
+int sys_getparentpid(void){
+  return myproc()->pid;
+}
+
+int sys_signal(void){
+  int func;
+  int signum;
+  if( argint(1,&func)<0 ) return -1;
+  if( argint(0,&signum)<0 ) return -1;
+  signum--;
+  if( signum>3 || signum<0 ) return -1;
+  myproc()->signals[signum] = (sighandler_t)func;
+  return 1;
+}

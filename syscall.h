@@ -23,3 +23,6 @@
 #define SYS_shutdown 22
 #define SYS_reboot 23
 #define SYS_set_priority 24
+#define SYS_getparentpid 25
+#define SYS_signal 26
+#define SYS_killsignal 27
