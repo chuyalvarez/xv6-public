@@ -179,6 +179,7 @@ UPROGS=\
 	_reboot\
 	_fibo\
 	_test_signal\
+	_rename\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
