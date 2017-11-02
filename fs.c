@@ -25,7 +25,7 @@
 static void itrunc(struct inode*);
 // there should be one superblock per disk device, but we run with
 // only one device
-struct superblock sb; 
+struct superblock sb;
 
 // Read the super block.
 void
@@ -164,7 +164,7 @@ void
 iinit(int dev)
 {
   int i = 0;
-  
+
   initlock(&icache.lock, "icache");
   for(i = 0; i < NINODE; i++) {
     initsleeplock(&icache.inode[i].lock, "inode");
@@ -196,6 +196,7 @@ ialloc(uint dev, short type)
       memset(dip, 0, sizeof(*dip));
       dip->type = type;
       log_write(bp);   // mark it allocated on the disk
+
       brelse(bp);
       return iget(dev, inum);
     }
@@ -218,6 +219,9 @@ iupdate(struct inode *ip)
   dip->minor = ip->minor;
   dip->nlink = ip->nlink;
   dip->size = ip->size;
+  dip->permissions[0] = 6;
+  dip->permissions[1] = 0;
+  dip->permissions[2] = 0;
   memmove(dip->addrs, ip->addrs, sizeof(ip->addrs));
   log_write(bp);
   brelse(bp);
@@ -291,6 +295,7 @@ ilock(struct inode *ip)
     ip->minor = dip->minor;
     ip->nlink = dip->nlink;
     ip->size = dip->size;
+    memmove(ip->permissions, dip->permissions, 4);
     memmove(ip->addrs, dip->addrs, sizeof(ip->addrs));
     brelse(bp);
     ip->flags |= I_VALID;
@@ -425,6 +430,7 @@ stati(struct inode *ip, struct stat *st)
   st->type = ip->type;
   st->nlink = ip->nlink;
   st->size = ip->size;
+  memmove(st->permissions, ip->permissions, 4);
 }
 
 //PAGEBREAK!

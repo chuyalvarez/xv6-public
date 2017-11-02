@@ -22,6 +22,7 @@ struct inode {
   short minor;
   short nlink;
   uint size;
+  char permissions[4];
   uint addrs[NDIRECT+1];
 };
 #define I_VALID 0x2
