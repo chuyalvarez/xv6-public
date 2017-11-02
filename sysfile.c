@@ -375,7 +375,7 @@ sys_chdir(void)
   char *path;
   struct inode *ip;
   struct proc *curproc = myproc();
-  
+
   begin_op();
   if(argstr(0, &path) < 0 || (ip = namei(path)) == 0){
     end_op();
@@ -442,4 +442,24 @@ sys_pipe(void)
   fd[0] = fd0;
   fd[1] = fd1;
   return 0;
+}
+
+int sys_chmod(void){
+  char *filename;
+  char *permissions;
+  struct inode *ip;
+
+  if(argstr(0, &permissions)<0 || argstr(1, &filename)<0 ) return -1;
+
+  begin_op();
+  if((ip = name(filename))== 0)
+  {
+    end_op();
+    return -1
+  }
+  ilock(ip);
+  memmove(ip->permissions,permissions,4);
+  iupdate(ip);
+  iunlock(ip);
+  end_op();
 }

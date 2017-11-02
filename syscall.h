@@ -26,3 +26,4 @@
 #define SYS_getparentpid 25
 #define SYS_signal 26
 #define SYS_killsignal 27
+#define SYS_chmod 28

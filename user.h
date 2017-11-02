@@ -29,6 +29,7 @@ int set_priority(int);
 int getparentid(void);
 int signal(int,sighandler_t);
 int killsignal(int,int);
+int chmod(char *,char *)
 
 // ulib.c
 int stat(char*, struct stat*);
