@@ -452,14 +452,14 @@ int sys_chmod(void){
   if(argstr(0, &permissions)<0 || argstr(1, &filename)<0 ) return -1;
 
   begin_op();
-  if((ip = name(filename))== 0)
-  {
+  if((ip = namei(filename))== 0){
     end_op();
-    return -1
+    return -1;
   }
   ilock(ip);
   memmove(ip->permissions,permissions,4);
   iupdate(ip);
   iunlock(ip);
   end_op();
+  return 0;
 }

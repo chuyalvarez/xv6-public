@@ -26,10 +26,10 @@ int uptime(void);
 int shutdown(void);
 int reboot(void);
 int set_priority(int);
-int getparentid(void);
+int getparentpid(void);
 int signal(int,sighandler_t);
 int killsignal(int,int);
-int chmod(char *,char *)
+int chmod(char *,char *);
 
 // ulib.c
 int stat(char*, struct stat*);

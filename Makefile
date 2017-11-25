@@ -183,6 +183,8 @@ UPROGS=\
 	_cp\
 	_chmod\
 	_login\
+	_adduser\
+	_exit\
 
 fs.img: mkfs README passwd $(UPROGS)
 	./mkfs fs.img README passwd $(UPROGS)

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "stat.h"
 #include "user.h"
- #include "fcntl.h"
+
 #define passwdFile "/passwd"
 #define maxLength 100
 
@@ -35,7 +35,7 @@ int readLine(int fd, char *buf, int size){
     if(c!='\n'){
       buf[i] = c;
       i++;
-    } else { break; }
+    } else  break;
   }
   buf[i] = '\0';
   return n;
@@ -56,15 +56,17 @@ int main (int argc,char *argv[]){
     read(0,userName,sizeof(userName));
     userName[strlen(userName)-1]=':';
     printf(1,"password:\n" );
-    memset(userName,0,sizeof(userPassword));
+    memset(userPassword,0,sizeof(userPassword));
     read(0,userPassword,sizeof(userPassword));
-    userPassword[strlen(userName)-1]=':';
+    userPassword[strlen(userPassword)-1]=':';
 
 
     fd = open(passwdFile,0);
 
     while((n = readLine(fd,record,sizeof(record)))>0){
       if(contains(record,userName) && contains(record,userPassword) ){
+          printf(1,"Welcome %s\n",userName );
+
           pid = fork();
           if(pid < 0){
             printf(1, "login: fork failed\n");
@@ -81,9 +83,10 @@ int main (int argc,char *argv[]){
           break;
 
       }else{
-        printf(1,"wrong user or password\n");
+
       }
     }
+    printf(1,"wrong user or password\n");
   close(fd);
   }
   exit();
